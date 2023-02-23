@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -125,6 +129,48 @@ public class Order {
 
         System.out.println("\nTotal: $" + orderTotal);
 
+        new CreateFile();
+        new WriteToFile(order);
 
     }
+
+
+    class CreateFile {
+        public CreateFile() {
+
+            try {
+                File salesData = new File("salesData.txt");
+
+                if (salesData.createNewFile()) {
+                    System.out.println("File created: " + salesData.getName());
+                } else {
+                    System.out.println("File already exists");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred");
+            }
+        }
+    }
+
+
+    class WriteToFile {
+        public WriteToFile(ArrayList<Object> order) {
+            try {
+                FileWriter fileWriter = new FileWriter("salesData.txt", true);
+                PrintWriter salesWriter = new PrintWriter(fileWriter);
+
+                for (int i = 0; i < order.size(); i++) {
+                    salesWriter.println(order.get(i));
+                }
+
+                salesWriter.close();
+                System.out.println("Successfully wrote to the file");
+
+            } catch (IOException e) {
+                System.out.println("An error occurred");
+            }
+        }
+    }
+
+
 }
